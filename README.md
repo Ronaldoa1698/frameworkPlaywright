@@ -179,3 +179,37 @@ npx playwright show-trace path/to/trace.zip
 ```
 
 Asegúrate de reemplazar path/to/trace.zip con la ruta real del archivo de trace que deseas compartir.
+
+```
+```
+## Ejecución vía GitHub Actions - "Playwright Tests"
+
+El workflow se llama "Playwright Tests" y está configurado con `workflow_dispatch`. El input principal es `test_tag` (required) y se utiliza para filtrar pruebas con Playwright (`--grep`).
+
+Cómo ejecutar desde la interfaz web:
+1. Ve a la pestaña "Actions" en tu repositorio.
+2. Selecciona el workflow "Playwright Tests".
+3. Haz clic en "Run workflow".
+4. En el campo `test_tag` introduce el tag a ejecutar (ej: `@filterUserSuccess`).
+5. Ejecuta el workflow.
+
+Cómo ejecutar desde la CLI (GitHub CLI):
+```bash
+# Ejecutar el workflow en la rama main pasando el tag
+gh workflow run playwright-test.yml --ref main --field test_tag='@filterUserSuccess'
+```
+
+Qué hace internamente:
+- Ejecuta el comando de pruebas usando el input:
+  npm run test -- --grep "${{ github.event.inputs.test_tag }}"
+- Sube los reportes como artifact desde: target/playwright-reports/
+
+Ejemplos:
+- Para ejecutar `@filterUserSuccess`:
+  - test_tag = @filterUserSuccess
+
+Notas importantes:
+- El input `test_tag` está definido como required en `.github/workflows/playwright-test.yml`. Si prefieres hacerlo opcional cambia `required: true` a `required: false`.
+- No se requieren credenciales locales para ejecutar Actions; los runners de GitHub se encargan de la ejecución.
+- Si el tag contiene espacios, cuida el quoting; para tags normales no suele ser necesario.
+```
