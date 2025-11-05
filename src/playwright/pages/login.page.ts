@@ -35,8 +35,7 @@ export class LoginPage {
         await expect(this.loginLocator.errorMessage).toBeVisible();
     }
 
-    async login(username: string, password: string) {
-        
+    async login(username: string, password: string) {  
         await this.enterUsername(username);
         await this.enterPassword(password);
         await this.clickLoginButton();
