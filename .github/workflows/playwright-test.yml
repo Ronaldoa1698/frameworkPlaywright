@@ -14,6 +14,7 @@ on:
           - '@loginFailure'
           - '@filterUserSuccess'
           - '@addUserAdmin'
+          - '@emptyFields'
 
 jobs:
   playwright-tests:
