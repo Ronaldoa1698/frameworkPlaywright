@@ -86,4 +86,44 @@ export class UserPage {
         await this.viewSystemUsersLocator.confirmPasswordError.waitFor({ state: 'visible' });
         await expect(this.viewSystemUsersLocator.confirmPasswordError).toHaveText('Passwords do not match');
     }
+
+    async fillUserDetailsWithUniqueUsername(baseUsername: string, password: string) {
+        const timestamp = Date.now();
+        const random = Math.floor(Math.random() * 10000);
+
+        let username = `${baseUsername}_${timestamp}_${random}`;
+        let attempts = 0;
+        const maxAttempts = 3;
+
+        while (attempts < maxAttempts) {
+            await this.viewSystemUsersLocator.inputUsername.clear();
+            await this.viewSystemUsersLocator.inputUsername.pressSequentially(username);
+            
+            await this.viewSystemUsersLocator.inputPassword.fill(password);
+            await this.viewSystemUsersLocator.inputConfirmPassword.fill(password);
+            await this.page.waitForTimeout(2000);
+            
+            try {
+                await this.viewSystemUsersLocator.usernameAlreadyExistsError.waitFor({ 
+                    state: 'visible', 
+                    timeout: 3000 
+                });
+                attempts++;
+                const newTimestamp = Date.now();
+                const newRandom = Math.floor(Math.random() * 10000);
+                username = `${baseUsername}_${newTimestamp}_${newRandom}_${attempts}`;
+                
+                continue;
+            } catch (error) {
+                console.log(`Username "${username}" creado exitosamente`);
+                break;
+            }
+        }
+        
+        if (attempts >= maxAttempts) {
+            throw new Error(`No se pudo crear un username único después de ${maxAttempts} intentos`);
+        }
+        
+        return username;
+    }
 }

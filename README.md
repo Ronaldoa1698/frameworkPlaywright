@@ -12,7 +12,6 @@ frameworkpruebasautomatizadas-fe/
 │   ├── workflows/
 │   │   ├── certification-tests.yml
 │   │   └── integration-tests.yml
-│   └── CODEOWNERS
 ├── src/
 │   ├── playwright/
 │   │   ├── locators/

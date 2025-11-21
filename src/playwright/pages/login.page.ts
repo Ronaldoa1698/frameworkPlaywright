@@ -24,6 +24,7 @@ export class LoginPage {
     }
 
     async clickLoginButton() {
+        await this.loginLocator.loginButton.waitFor({ state: 'attached' });
         await this.loginLocator.loginButton.click();
     }
 
