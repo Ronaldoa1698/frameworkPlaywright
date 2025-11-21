@@ -20,7 +20,7 @@ export default defineConfig({
 	testDir,
 	outputDir: './target/generated-test-sources',
 	fullyParallel: true,
-	workers: process.env.CI ? 1 : undefined,
+	workers: process.env.CI ? 2 : 4,
 	reporter: [
 		cucumberReporter('json', { outputFile: './target/cucumber-reports/cucumber.json' }),
 		[process.env.CI ? 'github' : 'list'],
@@ -30,7 +30,7 @@ export default defineConfig({
 		baseURL: env.BASEURL,
 		trace: 'on',
 		screenshot: 'only-on-failure',
-		headless: true,
+		headless: false,
 	},
 	projects: [
 		{
@@ -40,8 +40,8 @@ export default defineConfig({
 			},
 		},
 		{
-			name: 'firefox',
-			use: { ...devices['Desktop Firefox'] },
+		 	name: 'firefox',
+		 	use: { ...devices['Desktop Firefox'] },
 		}
 	]
 });

@@ -157,4 +157,7 @@ export class ViewSystemUsersLocator {
                 .locator('.oxd-text--span, .oxd-input-field-error-message');
     }
 
+    get usernameAlreadyExistsError() {
+        return this.page.getByText('Already exists');
+    }
 }
