@@ -30,7 +30,7 @@ export default defineConfig({
 		baseURL: env.BASEURL,
 		trace: 'on',
 		screenshot: 'only-on-failure',
-		headless: false,
+		headless: process.env.CI ? true : false,
 	},
 	projects: [
 		{
